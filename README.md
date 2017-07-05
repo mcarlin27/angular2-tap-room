@@ -11,7 +11,7 @@ A website created with Javascript that allows users to...
 ### Specs
 | Behavior | Example Input | Example Output |
 | :-------------     | :------------- | :------------- |
-| **Homepage with links to User and Employee views** | Homepage | User/Employee |
+| X**Homepage with links to User and Employee views** | Homepage | User/Employee |
 | **User can view menu** | User follows link to User view | Menu: List 'o Beers |
 | **Employee can view menu with edit functionality** | User follows link to Employee view | Menu: List 'o Beers with Edit/Delete/Add New functionality |
 | **Keg class contains "Pints" parameter** | Keg instantiates at 124 pints, User can "order" beer to reduce that value | User views List 'o Beers with pint values |
