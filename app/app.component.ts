@@ -14,6 +14,9 @@ import { Component } from '@angular/core';
     </div>
     <div [hidden]="employeeIsHidden">
       <p>Hello, employee</p>
+      <ul>
+        <li *ngFor="let currentKeg of kegs">{{currentKeg.name}}</li>
+      </ul>
       <label for="name">Keg Name</label>
       <input type="text" id="name" name="name">
       <label for="brand">Brand Name</label>
@@ -26,7 +29,7 @@ import { Component } from '@angular/core';
       </select>
       <label for="abv">ABV</label>
       <input type="number" id="abv" name="abv">
-      <button class="addKeg" (click)="addKeg()">Tap Keg</button>
+      <button class="addKeg" (click)="addKeg(name.value, brand.value, price.value, abv.value)">Tap Keg</button>
     </div>
   `
 })
