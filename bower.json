@@ -1,0 +1,17 @@
+{
+  "name": "angular2-to-do",
+  "description": "#### A program that allows users to... 7/5/17",
+  "main": "gulpfile.js",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
