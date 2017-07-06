@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
       <div *ngIf="employeeIsHidden">
         <p>Hello, employee</p>
         <ul>
-          <li *ngFor="let currentKeg of kegs">{{currentKeg.name}}, {{currentKeg.brand}}, \${{currentKeg.price}}/pint, {{currentKeg.abv}}%ABV, {{currentKeg.pints}} <button (click)="editKeg(currentKeg)">Edit!</button> <button (click)="sellPint(currentKeg)">Sell a Pint!</button> <button *ngIf="justKidding" (click)="unsellPint(currentKeg)">Unsell that Pint!</button></li>
+          <li [class]="pintsLeftColor(currentKeg)" *ngFor="let currentKeg of kegs">{{currentKeg.name}}, {{currentKeg.brand}}, \${{currentKeg.price}}/pint, {{currentKeg.abv}}%ABV, {{currentKeg.pints}} <button (click)="editKeg(currentKeg)">Edit!</button> <button (click)="sellPint(currentKeg)">Sell a Pint!</button> <button *ngIf="justKidding" (click)="unsellPint(currentKeg)">Unsell that Pint!</button></li>
         </ul>
         <button (click)="showKegForm()">Add Keg!</button>
         <div *ngIf="addKegInput">
@@ -83,6 +83,19 @@ export class AppComponent {
     this.employee = false;
     this.patron = true;
   }
+
+  pintsLeftColor(currentKeg) {
+    if (currentKeg.pints >= 90){
+      return "bg-info";
+    } else if (currentKeg.pints <= 89 && currentKeg.pints >= 60) {
+      return  "bg-success";
+    } else if (currentKeg.pints <= 59 && currentKeg.pints >= 11) {
+      return "bg-warning";
+    } else {
+      return "bg-danger";
+    }
+  }
+
 
   editKeg(clickedKeg) {
     this.selectedKeg = clickedKeg;
