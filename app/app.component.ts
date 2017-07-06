@@ -6,8 +6,8 @@ import { Component } from '@angular/core';
     <div class="container">
       <h1>Tap Room</h1>
       <hr>
-      <p (click)="patronIsShown()">Patron</p>
-      <p (click)="employeeIsShown()">Employee</p>
+      <p *ngIf="patron" (click)="patronIsShown()">Patron</p>
+      <p *ngIf="employee" (click)="employeeIsShown()">Employee</p>
       <div *ngIf="patronIsHidden">
         <p>Hello, patron</p>
       </div>
@@ -60,6 +60,8 @@ export class AppComponent {
     new Keg('Wandering Aengus Wickson', 'Wandering Aengus', 5, 8.2)
   ];
 
+  patron = true;
+  employee = true;
   patronIsHidden = false;
   employeeIsHidden = false;
   addKegInput = false;
@@ -71,11 +73,15 @@ export class AppComponent {
   patronIsShown() {
     this.patronIsHidden = true;
     this.employeeIsHidden = false;
+    this.patron = false;
+    this.employee = true;
   }
 
   employeeIsShown() {
     this.employeeIsHidden = true;
     this.patronIsHidden = false;
+    this.employee = false;
+    this.patron = true;
   }
 
   editKeg(clickedKeg) {
