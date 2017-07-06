@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
       <div *ngIf="employeeIsHidden">
         <p>Hello, employee</p>
         <ul>
-          <li [class]="pintsLeftColor(currentKeg)" *ngFor="let currentKeg of kegs">{{currentKeg.name}}, {{currentKeg.brand}}, \${{currentKeg.price}}/pint, {{currentKeg.abv}}%ABV, {{currentKeg.pints}} <button (click)="editKeg(currentKeg)">Edit!</button> <button (click)="sellPint(currentKeg)">Sell a Pint!</button> <button *ngIf="justKidding" (click)="unsellPint(currentKeg)">Unsell that Pint!</button></li>
+          <li [class]="pintsLeftColor(currentKeg)" *ngFor="let currentKeg of kegs">{{currentKeg.name}}, {{currentKeg.brand}}, \${{currentKeg.price}}/pint, {{currentKeg.abv}}%ABV, {{currentKeg.pints}} <button (click)="editKeg(currentKeg)">Edit!</button> <button (click)="sellPint(currentKeg)">Sell a Pint!</button> <button *ngIf="justKidding" (click)="unsellPint(currentKeg)">Unsell that Pint!</button> <button (click)="delete(currentKeg)">Delete Keg!</button></li>
         </ul>
         <button (click)="showKegForm()">Add Keg!</button>
         <div *ngIf="addKegInput">
@@ -68,6 +68,7 @@ export class AppComponent {
   selectedKeg = null;
   editKegForm = false;
   justKidding = false;
+  index = null;
 
 
   patronIsShown() {
@@ -115,6 +116,12 @@ export class AppComponent {
     if (this.selectedKeg.pints >= 124) {
       this.justKidding = false;
     }
+  }
+
+  delete(clickedKeg) {
+    this.selectedKeg = clickedKeg;
+    this.index = this.kegs.indexOf(this.selectedKeg);
+    this.kegs.splice(this.index, 1);
   }
 
   hideKegEditForm() {
