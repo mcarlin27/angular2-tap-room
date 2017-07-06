@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
       <div *ngIf="employeeIsHidden">
         <p>Hello, employee</p>
         <ul>
-          <li *ngFor="let currentKeg of kegs">{{currentKeg.name}}</li>
+          <li *ngFor="let currentKeg of kegs">{{currentKeg.name}}, {{currentKeg.brand}}, \${{currentKeg.price}}/pint, {{currentKeg.abv}}%ABV</li>
         </ul>
         <button (click)="showKegForm()">Add Keg!</button>
         <div *ngIf="addKegInput">
