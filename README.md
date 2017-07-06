@@ -16,7 +16,7 @@ A website created with Javascript that allows users to...
 | X**Employee can add a keg** | User can add a keg to menu in Employee view | Show/Hide form to add keg to menu |
 | X**Employee can view menu with edit functionality** | User follows link to Employee view | Menu: List 'o Beers with Edit/Add New functionality |
 | **Employee can delete kegs before they auto-delete** | User follows link to Employee view | Menu: List 'o Beers with Edit/Delete functionality |
-| **Keg class contains "Pints" parameter** | Keg instantiates at 124 pints, User can "order" beer to reduce that value | User views List 'o Beers with pint values |
+| X**Keg class contains "Pints" parameter** | Keg instantiates at 124 pints, User can "order" beer to reduce that value | User views List 'o Beers with pint values |
 | **Employee can see list of Kegs with <10 pints left** | User follows link to Employee view | List 'o Beers AND list of Kegs with <10 pints left |
 | **Keg List is color-coded by price** | User follows link to User view | Beers are listed by price, color-coded |
 | **Keg List is ordered by ABV** | User follows link to User view | Beers are listed by ABV, weak to strong |
