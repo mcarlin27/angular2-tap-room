@@ -9,27 +9,30 @@ import { Component } from '@angular/core';
       <p (click)="patronIsShown()">Patron</p>
       <p (click)="employeeIsShown()">Employee</p>
     </div>
-    <div [hidden]="patronIsHidden">
+    <div *ngIf="patronIsHidden">
       <p>Hello, patron</p>
     </div>
-    <div [hidden]="employeeIsHidden">
+    <div *ngIf="employeeIsHidden">
       <p>Hello, employee</p>
       <ul>
         <li *ngFor="let currentKeg of kegs">{{currentKeg.name}}</li>
       </ul>
-      <label for="name">Keg Name</label>
-      <input type="text" id="name" name="name">
-      <label for="brand">Brand Name</label>
-      <input type="text" id="brand" name="brand">
-      <select id="price">
-        <option value="3.75">$3.75</option>
-        <option value="4">$4.00</option>
-        <option value="4.5">$4.50</option>
-        <option value="5">$5.00</option>
-      </select>
-      <label for="abv">ABV</label>
-      <input type="number" id="abv" name="abv">
-      <button class="addKeg" (click)="addKeg(name.value, brand.value, price.value, abv.value)">Tap Keg</button>
+      <button (click)="showKegForm()">Add Keg!</button>
+      <div *ngIf="addKegInput">
+        <label for="name">Keg Name</label>
+        <input type="text" id="name" name="name">
+        <label for="brand">Brand Name</label>
+        <input type="text" id="brand" name="brand">
+        <select id="price">
+          <option value="3.75">$3.75</option>
+          <option value="4">$4.00</option>
+          <option value="4.5">$4.50</option>
+          <option value="5">$5.00</option>
+        </select>
+        <label for="abv">ABV</label>
+        <input type="number" id="abv" name="abv">
+        <button class="addKeg" (click)="addKeg(name.value, brand.value, price.value, abv.value)">Tap Keg</button>
+      </div>
     </div>
   `
 })
@@ -37,18 +40,23 @@ import { Component } from '@angular/core';
 export class AppComponent {
   kegs: Keg[] = [];
 
-  patronIsHidden: boolean = true;
-  employeeIsHidden: boolean = true;
+  patronIsHidden = false;
+  employeeIsHidden = false;
+  addKegInput = false;
 
 
   patronIsShown() {
-    this.patronIsHidden = false;
-    this.employeeIsHidden = true;
+    this.patronIsHidden = true;
+    this.employeeIsHidden = false;
   }
 
   employeeIsShown() {
-    this.employeeIsHidden = false;
-    this.patronIsHidden = true;
+    this.employeeIsHidden = true;
+    this.patronIsHidden = false;
+  }
+
+  showKegForm() {
+    this.addKegInput = true;
   }
 
   addKeg(name, brand, price, abv, pints) {
