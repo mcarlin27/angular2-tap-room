@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
       <div *ngIf="employeeIsHidden">
         <p>Hello, employee</p>
         <ul>
-          <li *ngFor="let currentKeg of kegs">{{currentKeg.name}}, {{currentKeg.brand}}, \${{currentKeg.price}}/pint, {{currentKeg.abv}}%ABV <button (click)="editKeg(currentKeg)">Edit!</button></li>
+          <li *ngFor="let currentKeg of kegs">{{currentKeg.name}}, {{currentKeg.brand}}, \${{currentKeg.price}}/pint, {{currentKeg.abv}}%ABV, {{currentKeg.pints}} <button (click)="editKeg(currentKeg)">Edit!</button> <button (click)="sellPint(currentKeg)">Sell a Pint!</button> <button *ngIf="justKidding" (click)="unsellPint(currentKeg)">Unsell that Pint!</button></li>
         </ul>
         <button (click)="showKegForm()">Add Keg!</button>
         <div *ngIf="addKegInput">
@@ -55,13 +55,17 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  kegs: Keg[] = [];
+  kegs: Keg[] = [
+    new Keg('Miller Lite', 'Miller', 3.75, 4.2),
+    new Keg('Wandering Aengus Wickson', 'Wandering Aengus', 5, 8.2)
+  ];
 
   patronIsHidden = false;
   employeeIsHidden = false;
   addKegInput = false;
   selectedKeg = null;
   editKegForm = false;
+  justKidding = false;
 
 
   patronIsShown() {
@@ -78,6 +82,20 @@ export class AppComponent {
     this.selectedKeg = clickedKeg;
     this.editKegForm = true;
     this.addKegInput = false;
+  }
+
+  sellPint(clickedKeg) {
+    this.selectedKeg = clickedKeg;
+    this.selectedKeg.pints -= 1;
+    this.justKidding = true;
+  }
+
+  unsellPint(clickedKeg) {
+    this.selectedKeg = clickedKeg;
+    this.selectedKeg.pints += 1;
+    if (this.selectedKeg.pints >= 124) {
+      this.justKidding = false;
+    }
   }
 
   hideKegEditForm() {
