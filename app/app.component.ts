@@ -108,6 +108,13 @@ export class AppComponent {
     this.selectedKeg = clickedKeg;
     this.selectedKeg.pints -= 1;
     this.justKidding = true;
+    if (this.selectedKeg.pints <= 5 && this.selectedKeg.pints >= 1) {
+      alert("The keg will be automatically deleted when the pints are all sold.")
+    }
+    if (this.selectedKeg.pints == 0) {
+      this.index = this.kegs.indexOf(this.selectedKeg);
+      this.kegs.splice(this.index, 1);
+    }
   }
 
   unsellPint(clickedKeg) {
