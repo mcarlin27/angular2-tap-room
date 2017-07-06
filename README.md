@@ -2,7 +2,7 @@
 
 #### A program that allows users to... 7/5/17
 
-#### By **Marilyn Carlin, Jenna Cooper, and Leah Sherrell**
+#### By **Marilyn Carlin, and Leah Sherrell**
 
 ## Description
 
@@ -13,6 +13,7 @@ A website created with Javascript that allows users to...
 | :-------------     | :------------- | :------------- |
 | X**Homepage with links to User and Employee views** | Homepage | User/Employee |
 | **User can view menu** | User follows link to User view | Menu: List 'o Beers |
+| X**Employee can add a keg** | User can add a keg to menu in Employee view | Show/Hide form to add keg to menu |
 | **Employee can view menu with edit functionality** | User follows link to Employee view | Menu: List 'o Beers with Edit/Delete/Add New functionality |
 | **Keg class contains "Pints" parameter** | Keg instantiates at 124 pints, User can "order" beer to reduce that value | User views List 'o Beers with pint values |
 | **Employee can see list of Kegs with <10 pints left** | User follows link to Employee view | List 'o Beers AND list of Kegs with <10 pints left |
@@ -40,10 +41,10 @@ A website created with Javascript that allows users to...
 
 ## Support and contact details
 
-_Contact mcarlin27, dahling, or leahsherrell over GitHub with any questions, comments, or concerns._
+_Contact mcarlin27 or leahsherrell over GitHub with any questions, comments, or concerns._
 
 ### License
 
 *{This software is licensed under the MIT license}*
 
-Copyright (c) 2017 **_{Marilyn Carlin, Jenna Cooper, and Leah Sherrell}_**
+Copyright (c) 2017 **_{Marilyn Carlin and Leah Sherrell}_**
