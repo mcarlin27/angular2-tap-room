@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Keg } from './keg.model';
+
 
 @Component({
   selector: 'app-root',
@@ -13,9 +15,9 @@ import { Component } from '@angular/core';
       </div>
       <div *ngIf="employeeIsHidden">
         <p>Hello, employee</p>
-        <ul>
-          <li [class]="pintsLeftColor(currentKeg)" *ngFor="let currentKeg of kegs">{{currentKeg.name}}, {{currentKeg.brand}}, \${{currentKeg.price}}/pint, {{currentKeg.abv}}%ABV, {{currentKeg.pints}} <button (click)="editKeg(currentKeg)">Edit!</button> <button (click)="sellPint(currentKeg)">Sell a Pint!</button> <button *ngIf="justKidding" (click)="unsellPint(currentKeg)">Unsell that Pint!</button> <button (click)="delete(currentKeg)">Delete Keg!</button></li>
-        </ul>
+
+        <task-list></task-list>
+
         <button (click)="showKegForm()">Add Keg!</button>
         <div *ngIf="addKegInput">
           <label>Keg Name</label>
@@ -55,10 +57,7 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  kegs: Keg[] = [
-    new Keg('Miller Lite', 'Miller', 3.75, 4.2),
-    new Keg('Wandering Aengus Wickson', 'Wandering Aengus', 5, 8.2)
-  ];
+
 
   patron = true;
   employee = true;
@@ -67,6 +66,10 @@ export class AppComponent {
   addKegInput = false;
   selectedKeg = null;
   editKegForm = false;
+  showSellPintForm = true;
+  sellPintSubmit = false;
+  howMany = false;
+  numberOfPints = null;
   justKidding = false;
   index = null;
 
@@ -85,17 +88,6 @@ export class AppComponent {
     this.patron = true;
   }
 
-  pintsLeftColor(currentKeg) {
-    if (currentKeg.pints >= 90){
-      return "bg-info";
-    } else if (currentKeg.pints <= 89 && currentKeg.pints >= 60) {
-      return  "bg-success";
-    } else if (currentKeg.pints <= 59 && currentKeg.pints >= 11) {
-      return "bg-warning";
-    } else {
-      return "bg-danger";
-    }
-  }
 
 
   editKeg(clickedKeg) {
@@ -104,10 +96,21 @@ export class AppComponent {
     this.addKegInput = false;
   }
 
-  sellPint(clickedKeg) {
+  showSellPint() {
+    this.howMany = true;
+    this.showSellPintForm = false;
+    this.sellPintSubmit = true;
+  }
+
+  sellPint(clickedKeg, pintCount) {
+    // console.log('hello world');
     this.selectedKeg = clickedKeg;
-    this.selectedKeg.pints -= 1;
+    this.numberOfPints = pintCount;
+    this.selectedKeg.pints -= this.numberOfPints;
     this.justKidding = true;
+    this.showSellPintForm = true;
+    this.howMany = false;
+    this.sellPintSubmit = false;
     if (this.selectedKeg.pints <= 5 && this.selectedKeg.pints >= 1) {
       alert("The keg will be automatically deleted when the pints are all sold.")
     }
@@ -148,13 +151,4 @@ export class AppComponent {
     this.addKegInput = false;
   }
 }
-
-export class Keg {
-  public pints: number = 124;
-  constructor(public name: string, public brand: string, public price: number, public abv: number) {
-    this.name = name,
-    this.brand = brand,
-    this.price = price,
-    this.abv = abv;
-  }
 }
