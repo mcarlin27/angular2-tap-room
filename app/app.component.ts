@@ -14,24 +14,40 @@ import { Component } from '@angular/core';
       <div *ngIf="employeeIsHidden">
         <p>Hello, employee</p>
         <ul>
-          <li *ngFor="let currentKeg of kegs">{{currentKeg.name}}, {{currentKeg.brand}}, \${{currentKeg.price}}/pint, {{currentKeg.abv}}%ABV</li>
+          <li *ngFor="let currentKeg of kegs">{{currentKeg.name}}, {{currentKeg.brand}}, \${{currentKeg.price}}/pint, {{currentKeg.abv}}%ABV <button (click)="editKeg(currentKeg)">Edit!</button></li>
         </ul>
         <button (click)="showKegForm()">Add Keg!</button>
         <div *ngIf="addKegInput">
-          <label for="name">Keg Name</label>
-          <input type="text" #name name="name">
-          <label for="brand">Brand Name</label>
-          <input type="text" #brand name="brand">
+          <label>Keg Name</label>
+          <input #name>
+          <label>Brand Name</label>
+          <input #brand>
           <select #price>
             <option value="3.75">$3.75</option>
             <option value="4">$4.00</option>
             <option value="4.5">$4.50</option>
             <option value="5">$5.00</option>
           </select>
-          <label for="abv">ABV</label>
-          <input type="number" #abv name="abv">
+          <label>ABV</label>
+          <input type="number" min="0" #abv>
           <button (click)="addKeg(name.value, brand.value, price.value, abv.value)">Tap Keg</button>
           <button (click)="hideKegForm()">Done Tapping!</button>
+        </div>
+        <div *ngIf="editKegForm">
+          <h3>Edit Keg</h3>
+          <label>Keg Name</label>
+          <input [(ngModel)]="selectedKeg.name">
+          <label>Brand Name</label>
+          <input [(ngModel)]="selectedKeg.brand">
+          <select [(ngModel)]="selectedKeg.price">
+            <option value="3.75">$3.75</option>
+            <option value="4">$4.00</option>
+            <option value="4.5">$4.50</option>
+            <option value="5">$5.00</option>
+          </select>
+          <label>ABV</label>
+          <input [(ngModel)]="selectedKeg.abv">
+          <button (click)="hideKegEditForm()">Done Editing!</button>
         </div>
       </div>
     </div>
@@ -44,6 +60,8 @@ export class AppComponent {
   patronIsHidden = false;
   employeeIsHidden = false;
   addKegInput = false;
+  selectedKeg = null;
+  editKegForm = false;
 
 
   patronIsShown() {
@@ -54,6 +72,16 @@ export class AppComponent {
   employeeIsShown() {
     this.employeeIsHidden = true;
     this.patronIsHidden = false;
+  }
+
+  editKeg(clickedKeg) {
+    this.selectedKeg = clickedKeg;
+    this.editKegForm = true;
+    this.addKegInput = false;
+  }
+
+  hideKegEditForm() {
+    this.editKegForm = false;
   }
 
   showKegForm() {
@@ -72,7 +100,7 @@ export class AppComponent {
 
 export class Keg {
   public pints: number = 124;
-  constructor(public name: string, public brand: string, public price: string, public abv: number) {
+  constructor(public name: string, public brand: string, public price: number, public abv: number) {
     this.name = name,
     this.brand = brand,
     this.price = price,
