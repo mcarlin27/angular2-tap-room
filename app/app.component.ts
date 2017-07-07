@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Keg } from './keg.model';
 
-
 @Component({
   selector: 'app-root',
   template: `
@@ -16,41 +15,15 @@ import { Keg } from './keg.model';
       <div *ngIf="employeeIsHidden">
         <p>Hello, employee</p>
 
-        <task-list></task-list>
+        <keg-list [childKegList]="masterKegList" [childShowSellPintForm]="showSellPintForm" [childHowManyPints]="howMany"
+        [childKegToBeSold]="kegBeingSold" (clickSender)="editKeg($event)"
+        (sellPintClickSender)="sellPint($event)"
+        (sellThisKegSender)="kegBeingSold = $event" (deleteClickSender)="delete($event)"></keg-list>
 
-        <button (click)="showKegForm()">Add Keg!</button>
-        <div *ngIf="addKegInput">
-          <label>Keg Name</label>
-          <input #name>
-          <label>Brand Name</label>
-          <input #brand>
-          <select #price>
-            <option value="3.75">$3.75</option>
-            <option value="4">$4.00</option>
-            <option value="4.5">$4.50</option>
-            <option value="5">$5.00</option>
-          </select>
-          <label>ABV</label>
-          <input type="number" min="0" #abv>
-          <button (click)="addKeg(name.value, brand.value, price.value, abv.value)">Tap Keg</button>
-          <button (click)="hideKegForm()">Done Tapping!</button>
-        </div>
-        <div *ngIf="editKegForm">
-          <h3>Edit Keg</h3>
-          <label>Keg Name</label>
-          <input [(ngModel)]="selectedKeg.name">
-          <label>Brand Name</label>
-          <input [(ngModel)]="selectedKeg.brand">
-          <select [(ngModel)]="selectedKeg.price">
-            <option value="3.75">$3.75</option>
-            <option value="4">$4.00</option>
-            <option value="4.5">$4.50</option>
-            <option value="5">$5.00</option>
-          </select>
-          <label>ABV</label>
-          <input [(ngModel)]="selectedKeg.abv">
-          <button (click)="hideKegEditForm()">Done Editing!</button>
-        </div>
+        <new-keg [childKegInput]="addKegInput" (newKegSender)="addKeg($event)" (addNewKegClickedSender)="showNewKegForm()" (doneAddingButtonClickedSender)="hideNewKegForm()"></new-keg>
+
+        <edit-keg [childSelectedKeg]="selectedKeg" (doneButtonClickedSender)="hideKegEditForm()"></edit-keg>
+
       </div>
     </div>
   `
@@ -58,21 +31,24 @@ import { Keg } from './keg.model';
 
 export class AppComponent {
 
-
   patron = true;
   employee = true;
   patronIsHidden = false;
   employeeIsHidden = false;
   addKegInput = false;
   selectedKeg = null;
-  editKegForm = false;
   showSellPintForm = true;
   sellPintSubmit = false;
   howMany = false;
-  numberOfPints = null;
+  kegBeingSold = null;
   justKidding = false;
   index = null;
 
+
+  masterKegList: Keg[] = [
+    new Keg('Miller Lite', 'Miller', 3.75, 4.2),
+    new Keg('Wandering Aengus Wickson', 'Wandering Aengus', 5, 8.2)
+  ];
 
   patronIsShown() {
     this.patronIsHidden = true;
@@ -88,35 +64,20 @@ export class AppComponent {
     this.patron = true;
   }
 
-
-
-  editKeg(clickedKeg) {
-    this.selectedKeg = clickedKeg;
-    this.editKegForm = true;
-    this.addKegInput = false;
-  }
-
-  showSellPint() {
-    this.howMany = true;
-    this.showSellPintForm = false;
-    this.sellPintSubmit = true;
-  }
-
-  sellPint(clickedKeg, pintCount) {
-    // console.log('hello world');
-    this.selectedKeg = clickedKeg;
-    this.numberOfPints = pintCount;
-    this.selectedKeg.pints -= this.numberOfPints;
+  sellPint(object) {
+    var keg = object.keg;
+    var pints = object.pints;
+    keg.pints -= pints;
     this.justKidding = true;
     this.showSellPintForm = true;
     this.howMany = false;
     this.sellPintSubmit = false;
-    if (this.selectedKeg.pints <= 5 && this.selectedKeg.pints >= 1) {
+    if (keg.pints <= 5 && keg.pints >= 1) {
       alert("The keg will be automatically deleted when the pints are all sold.")
     }
-    if (this.selectedKeg.pints == 0) {
-      this.index = this.kegs.indexOf(this.selectedKeg);
-      this.kegs.splice(this.index, 1);
+    if (keg.pints == 0) {
+      this.index = this.masterKegList.indexOf(this.selectedKeg);
+      this.masterKegList.splice(this.index, 1);
     }
   }
 
@@ -129,26 +90,28 @@ export class AppComponent {
   }
 
   delete(clickedKeg) {
+    var keg = clickedKeg;
+    this.index = this.masterKegList.indexOf(keg);
+    this.masterKegList.splice(this.index, 1);
+  }
+
+  editKeg(clickedKeg) {
     this.selectedKeg = clickedKeg;
-    this.index = this.kegs.indexOf(this.selectedKeg);
-    this.kegs.splice(this.index, 1);
   }
 
   hideKegEditForm() {
-    this.editKegForm = false;
+    this.selectedKeg = null;
   }
 
-  showKegForm() {
+  showNewKegForm() {
     this.addKegInput = true;
   }
 
-  addKeg(name, brand, price, abv) {
-    let newKeg = new Keg(name, brand, price, abv);
-    this.kegs.push(newKeg);
+  addKeg(newKegFromChild) {
+    this.masterKegList.push(newKegFromChild);
   }
 
-  hideKegForm() {
+  hideNewKegForm() {
     this.addKegInput = false;
   }
-}
 }
